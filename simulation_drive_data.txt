@@ -1,0 +1,2 @@
+willow_1.dat မှာ Linear x=0.15 Angular z=0.15 mapping သိပ်အဆင်မပြေ
+willow_2.dat မှာ Linear x=0.25 Angular z=0.25 mapping အဆင်ပြေ

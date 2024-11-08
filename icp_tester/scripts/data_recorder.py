@@ -35,8 +35,8 @@ class DataLoggerNode(Node):
 
         # scan params
         #scan_no_max = 726 #for simpleURG
-        scan_no_max = 352  # (2.3561999797821045*2)/0.013126462697982788 = 352 
-        self.scan = [0]*(scan_no_max*2) # 352*2 = 704
+        scan_no_max = 340  # (2.3561999797821045*2)/0.013126462697982788 = 358 
+        self.scan = [0]*(scan_no_max*2) # 340*2 = 680
         self.scan_no = 0
         # self.angle_min = -2.35619449615 #for simpleURG -135deg
         # self.angle_max = 2.09234976768 #for simpleURG 120deg
@@ -78,13 +78,17 @@ class DataLoggerNode(Node):
         # angle_total_n = 340, scan = 680
         # print(len(message.ranges))
         # print(len(message.intensities))
-        for i in range (0, 704-2, 2): 
+        for i in range (0, 680-1, 2): 
             #Measurement angle index (DEG)
-            self.scan[int(i)] = (self.angle_min + i/2 * self.angle_increment) * 180 / 3.14
+            temp = (self.angle_min + i/2 * self.angle_increment) * 180 / 3.14
+            self.scan[int(i)] = f"{temp:.9f}"
+            # self.scan[int(i)] = (self.angle_min + i/2 * self.angle_increment) * 180 / 3.14
             if math.isinf(message.ranges[int(i/2)]):
                 self.scan[int((i)+1)] = 0
             else:
-                self.scan[int((i)+1)] = message.ranges[(int(i/2))] 
+                a = message.ranges[(int(i/2))] 
+                self.scan[int((i)+1)] = f"{a:.12f}"
+                # self.scan[int((i)+1)] = message.ranges[(int(i/2))] 
             # if math.isnan(message.ranges[int(i/2)]):                                                        #START FROM HERE        # DOUBLE NO ARRAY ( OUT OF RANGE )
             #     #When the measurement data is nan (outside the measurement range), 0 is assigned
             #     self.scan[int(i)+1] = 0 
@@ -139,12 +143,12 @@ class DataLoggerNode(Node):
         if self.scan_no > 0 : #Make the same format as the input data file of SLAM in this book
             output_list =["LASERSCAN"]
             output_list.append(self.scan_no)
-            output_list.append(self.cur_time.nanoseconds/1e9)
-            output_list.append(self.cur_time.nanoseconds )
+            output_list.append(self.scan_time_secs)
+            output_list.append(self.scan_time_nsecs )
             # output_list.append(self.scan_time_secs)     #မူရင်းမှာ scan time မယူ (node time ပဲယူ)
             # output_list.append(self.scan_time_nsecs)
-            output_list.append('334') #(352-12) Save scan data from the sensor.
-            for i in range (12, 704-24): #Roughly saves scan data from -120deg to 120deg
+            output_list.append('340') #(352-12) Save scan data from the sensor.
+            for i in range (0, 680): #Roughly saves scan data from -120deg to 120deg
                 output_list.append(self.scan[i])
             output_list.append(self.position_x) #Odometry X direction
             output_list.append(self.position_y) #Odometry Y direction

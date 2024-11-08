@@ -37,6 +37,7 @@ install(PROGRAMS
   scripts/keyboard_cmd_vel.py
   scripts/data_recorder.py
   scripts/sample_code.py
+  scripts/get_info.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
