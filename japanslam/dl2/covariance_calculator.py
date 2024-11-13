@@ -96,7 +96,7 @@ class CovarianceCalculator:
         C1 = np.eye(3)
         C1[0, 0] = 3. * dx * dx  # 並進成分x 3.0(Raspberry Pi Mouse), 1.0(TurtleBot3)
         C1[1, 1] = 3. * dy * dy  # 並進成分y 3.0(Raspberry Pi Mouse), 1.0(TurtleBot3)
-        C1[2, 2] =300. * da * da  # 回転成分 オドメトリの回転成分ずれが大きい場合 300.0(Raspberry Pi Mouse), 25.0(TurtleBot3)  
+        C1[2, 2] =600. * da * da  # 回転成分 オドメトリの回転成分ずれが大きい場合 300.0(Raspberry Pi Mouse), 25.0(TurtleBot3)  
 
         cov = C1
 
